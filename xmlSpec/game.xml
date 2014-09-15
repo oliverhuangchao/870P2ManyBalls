@@ -4,7 +4,7 @@
 <maxStringSize>50</maxStringSize>
 <username>Chao Huang</username>
 <frameMax>200</frameMax>
-<ballCount>100</ballCount>
+<ballCount>2</ballCount>
 
 <view>
   <width>854</width>
@@ -20,6 +20,7 @@
   <red>0</red>
   <green>255</green>
   <blue>255</blue>
+  <file>images/checkerboard.bmp</file>
 </back>
 
 <font name="font">

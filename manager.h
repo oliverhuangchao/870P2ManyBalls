@@ -21,13 +21,17 @@ private:
   int backBlue;
 
   SDL_Surface* orbSurface;
+  SDL_Surface* backSurface;
   const Frame * const orbFrame;
 
-  /* ------   only one ball ---------*/
+  /* ----------   only one ball ---------*/
   //Sprite orb;
   /* ------ orb will be a vetor ---------*/
   std::vector<Sprite> orb;
   int ballCount;
+
+  /* ---------- background image ------- */
+  std::string BackgroundPicture;
 
   bool makeVideo;
   int frameCount;

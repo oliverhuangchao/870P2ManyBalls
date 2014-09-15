@@ -62,6 +62,23 @@ SDL_Surface* IOManager::loadAndSet(const string& filename, bool setcolorkey) con
   return image;
 }
 
+/* ---------- set background image ---------------*/
+SDL_Surface* IOManager::loadBackground(const string& filename) const {
+  SDL_Surface *tmp = IMG_Load(filename.c_str());
+  if (tmp == NULL) {
+    throw string("Unable to load bitmap ")+filename;
+  }
+  SDL_Surface *image = SDL_DisplayFormatAlpha(tmp);
+  if (image == NULL) {
+    image = tmp;
+  } 
+  else {
+    SDL_FreeSurface(tmp);
+  }
+  return image;
+}
+
+
 void IOManager::printMessageAt(const string& msg, Sint16 x, Sint16 y) const {
    Uint16 zero = 0;
    SDL_Rect dest = {x,y,zero,zero};

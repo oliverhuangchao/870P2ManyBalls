@@ -16,6 +16,9 @@ public:
   SDL_Surface* loadAndSet(const std::string& filename, 
                           bool setcolorkey) const;
 
+
+  SDL_Surface* loadBackground(const std::string& filename) const;
+
   void printMessageAt(const std::string& msg, Sint16 x, Sint16 y) const;
   void printMessageCenteredAt(const std::string& msg, Sint16 y) const;
   void printStringAfterMessage(const std::string&, 

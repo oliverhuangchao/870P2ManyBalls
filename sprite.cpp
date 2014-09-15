@@ -5,8 +5,8 @@
 
 Sprite::Sprite(const std::string& name, const Frame* const frame) :
   Drawable(name,
-           Vector2f(Gamedata::getInstance()->getXmlInt(name+"/startLoc/x") + rand()%100*5, 
-                    Gamedata::getInstance()->getXmlInt(name+"/startLoc/y") + rand()%100)*5, 
+           Vector2f(Gamedata::getInstance()->getXmlInt(name+"/startLoc/x") + rand()%100*2, 
+                    Gamedata::getInstance()->getXmlInt(name+"/startLoc/y") + rand()%100)*2, 
            Vector2f(Gamedata::getInstance()->getXmlInt(name+"/speedX") + rand()%100*5, 
                     Gamedata::getInstance()->getXmlInt(name+"/speedY") + rand()%100*5 ) 
            ),

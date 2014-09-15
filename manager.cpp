@@ -33,11 +33,14 @@ Manager::Manager() :
     Gamedata::getInstance()->getXmlBool("greenorb/transparency")) ),
   orbFrame( new Frame("greenorb", orbSurface) ),
 
+  /* --------- background image setting ---------- */
+  backSurface( io->loadBackground(Gamedata::getInstance()->getXmlStr("back/file"))),
+
   /* --------- try to init one ball ---------- */
   //orb("greenorb", orbFrame),
   /* --------- try to init more balls ---------- */
   ballCount( Gamedata::getInstance()->getXmlInt("ballCount")),
-
+  BackgroundPicture( Gamedata::getInstance()->getXmlStr("back/file")),
 
   makeVideo( false ),
   frameCount( 0 ),
@@ -45,7 +48,6 @@ Manager::Manager() :
   frameMax( Gamedata::getInstance()->getXmlInt("frameMax") ),
   TITLE( Gamedata::getInstance()->getXmlStr("screenTitle") )
 {
-
   /* ----------- init more balls ------ */
   //orb.resize(2);// here will call the construction method of Sprite
   for (int i = 0; i<ballCount; i++)
@@ -60,17 +62,19 @@ Manager::Manager() :
   }
   atexit(SDL_Quit);
 }
-
+/* ----------- draw background ------------- */
 void Manager::drawBackground() const {
-  SDL_FillRect( screen, NULL, 
-    SDL_MapRGB(screen->format, backRed, backGreen, backBlue) );
-  SDL_Rect dest = {0, 0, 0, 0};
-  SDL_BlitSurface( screen, NULL, screen, &dest );
-}
+  
+ // SDL_FillRect( screen, NULL, SDL_MapRGB(screen->format, backRed, backGreen, backBlue) );
+  SDL_Rect dest = {0, 0, 0, 0}; 
+  //SDL_BlitSurface( screen, NULL, screen, &dest );
+
+  SDL_BlitSurface(backSurface, NULL, screen, &dest );
+
+ }
 
 void Manager::draw() const {
   drawBackground();
-
   /*   ----- draw one ball here------- */
   //orb.draw();
   /*   ----- draw one ball here------- */
