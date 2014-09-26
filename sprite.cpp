@@ -2,17 +2,24 @@
 #include <cmath>
 #include "sprite.h"
 #include "gamedata.h"
-
+//#define PI = 3.1415926
 Sprite::Sprite(const std::string& name, const Frame* const frame) :
   Drawable(name,
            Vector2f(Gamedata::getInstance()->getXmlInt(name+"/startLoc/x") + rand()%100*2, 
-                    Gamedata::getInstance()->getXmlInt(name+"/startLoc/y") + rand()%100)*2, 
-           Vector2f(Gamedata::getInstance()->getXmlInt(name+"/speedX") + rand()%100*5, 
-                    Gamedata::getInstance()->getXmlInt(name+"/speedY") + rand()%100*5 ) 
+                    Gamedata::getInstance()->getXmlInt(name+"/startLoc/y") + rand()%100*2), 
+
+           Vector2f((Gamedata::getInstance()->getXmlInt(name+"/speedX")), 
+                    (Gamedata::getInstance()->getXmlInt(name+"/speedY")))
+
            ),
   frame( frame ),
   frameWidth(frame->getWidth()),
   frameHeight(frame->getHeight()),
+
+  centerX(Gamedata::getInstance()->getXmlInt(name+"/startcenter/x")),
+  centerY(Gamedata::getInstance()->getXmlInt(name+"/startcenter/y")),
+
+
   worldWidth(Gamedata::getInstance()->getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance()->getXmlInt("world/height"))
 { }
@@ -22,6 +29,10 @@ Sprite::Sprite(const Sprite& s) :
   frame(s.frame),  // shallow copy; Manager may reuse it
   frameWidth(s.getFrame()->getWidth()),
   frameHeight(s.getFrame()->getHeight()),
+
+  centerX(s.getCenterX()),
+  centerY(s.getCenterY()),
+
   worldWidth(Gamedata::getInstance()->getXmlInt("world/width")),
   worldHeight(Gamedata::getInstance()->getXmlInt("world/height"))
 { }
@@ -33,6 +44,8 @@ Sprite& Sprite::operator=(const Sprite& rhs) {
   frameHeight = rhs.frameHeight;
   worldWidth = rhs.worldWidth;
   worldHeight = rhs.worldHeight;
+  centerX = rhs.centerX;
+  centerY = rhs.centerY;
   return *this;
 }
 
@@ -46,17 +59,26 @@ void Sprite::update(Uint32 ticks) {
   Vector2f incr = getVelocity() * static_cast<float>(ticks) * 0.001;
   setPosition(getPosition() + incr);
 
-  if ( Y() < 0) {
-    velocityY( abs( velocityY() ) );
-  }
-  if ( Y() > worldHeight-frameHeight) {
-    velocityY( -abs( velocityY() ) );
-  }
+  double  theta;
 
-  if ( X() < 0) {
-    velocityX( abs( velocityX() ) );
+  if ( Y() > centerY && X() > centerX) {//4 area
+    theta = atan((Y()-centerY)/(X()-centerX));
+    velocityX( 1*sin(theta)*200 );
+    velocityY( -1*cos(theta)*200 );
   }
-  if ( X() > worldWidth-frameWidth) {
-    velocityX( -abs( velocityX() ) );
-  }  
+  if ( Y() > centerY && X() < centerX) {//3 area
+    theta = atan((Y() - centerY)/(centerX - X()));
+    velocityX( 1*sin(theta)*200 );
+    velocityY( 1*cos(theta)*200 );
+  }
+  if ( Y() < centerY && X() < centerX) {//2 area
+    theta = atan((centerY - Y())/(centerX - X()));
+    velocityX( -1*sin(theta)*200 );
+    velocityY( 1*cos(theta)*200 );
+  }
+  if ( Y() < centerY && X() > centerX) {//1 area
+    theta = atan((centerY - Y())/(X() - centerX));
+    velocityX( -1*sin(theta)*200 );
+    velocityY( -1*cos(theta)*200 );
+  }
 }

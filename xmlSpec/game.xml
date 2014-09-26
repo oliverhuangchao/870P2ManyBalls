@@ -4,23 +4,23 @@
 <maxStringSize>50</maxStringSize>
 <username>Chao Huang</username>
 <frameMax>200</frameMax>
-<ballCount>2</ballCount>
+<ballCount>10</ballCount>
 
 <view>
-  <width>854</width>
-  <height>480</height>
+  <width>1024</width>
+  <height>768</height>
 </view>
 
 <world>
-  <width>854</width>
-  <height>480</height>
+  <width>1024</width>
+  <height>768</height>
 </world>
 
 <back>
   <red>0</red>
   <green>255</green>
   <blue>255</blue>
-  <file>images/checkerboard.bmp</file>
+  <file>images/spacenew.jpg</file>
 </back>
 
 <font name="font">
@@ -33,15 +33,29 @@
 </font>
 
 <greenorb>
-  <file>images/coin.png</file>
+  <file>images/earth1.png</file>
   <srcX>0</srcX>
   <srcY>0</srcY>
-  <width>32</width>
-  <height>32</height>
-  <startLoc x="320" y="240"/>
+  <width>64</width>
+  <height>64</height>
+  <startLoc x="100" y="100"/>
   <speedX>175</speedX>
   <speedY>175</speedY>
+  <startcenter x="512" y="384"/>
   <transparency>true</transparency>
 </greenorb>
+
+<redorb>
+  <file>images/jupiter.png</file>
+  <srcX>0</srcX>
+  <srcY>0</srcY>
+  <width>100</width>
+  <height>100</height>
+  <startLoc x="100" y="100"/>
+  <speedX>175</speedX>
+  <speedY>175</speedY>
+  <startcenter x="512" y="384"/>
+  <transparency>true</transparency>
+</redorb>
 
 </GameData>

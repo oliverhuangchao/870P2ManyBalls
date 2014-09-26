@@ -15,30 +15,28 @@ Manager::~Manager() {
 
 Manager::Manager() :
   env( SDL_putenv(const_cast<char*>("SDL_VIDEO_CENTERED=center")) ),
-  //--------------- get two singlton here ----------------
+
   io( IOManager::getInstance() ),
   clock( Clock::getInstance() ),
   screen( io->getScreen() ),
   
-
-  /*----------------- set the background coloor ----------  */
   backRed( Gamedata::getInstance()->getXmlInt("back/red") ),
   backGreen( Gamedata::getInstance()->getXmlInt("back/green") ),
   backBlue( Gamedata::getInstance()->getXmlInt("back/blue") ),
 
   
-  // --------------- get other material in xml file----------
   orbSurface( io->loadAndSet(
     Gamedata::getInstance()->getXmlStr("greenorb/file"), 
     Gamedata::getInstance()->getXmlBool("greenorb/transparency")) ),
+
+  //orbSurface(),
+
+  backSurface( io->loadBackground(Gamedata::getInstance()->getXmlStr("back/file"))),
+ 
   orbFrame( new Frame("greenorb", orbSurface) ),
 
-  /* --------- background image setting ---------- */
-  backSurface( io->loadBackground(Gamedata::getInstance()->getXmlStr("back/file"))),
+  orb(),
 
-  /* --------- try to init one ball ---------- */
-  //orb("greenorb", orbFrame),
-  /* --------- try to init more balls ---------- */
   ballCount( Gamedata::getInstance()->getXmlInt("ballCount")),
   BackgroundPicture( Gamedata::getInstance()->getXmlStr("back/file")),
 
@@ -48,21 +46,26 @@ Manager::Manager() :
   frameMax( Gamedata::getInstance()->getXmlInt("frameMax") ),
   TITLE( Gamedata::getInstance()->getXmlStr("screenTitle") )
 {
-  /* ----------- init more balls ------ */
-  //orb.resize(2);// here will call the construction method of Sprite
+  // here will call the construction method of Sprite
+
   for (int i = 0; i<ballCount; i++)
   {
-    Sprite tmp("greenorb",orbFrame);
-    orb.push_back(tmp);
+    if (i%2 == 0){
+      Sprite tmp("greenorb",orbFrame);    
+      orb.push_back(tmp);
+    }
+    else{
+      Sprite tmp("redorb",orbFrame);    
+      orb.push_back(tmp);
+    }
   }
-
 
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     throw string("Unable to initialize SDL: ");
   }
   atexit(SDL_Quit);
 }
-/* ----------- draw background ------------- */
+
 void Manager::drawBackground() const {
   
  // SDL_FillRect( screen, NULL, SDL_MapRGB(screen->format, backRed, backGreen, backBlue) );
@@ -75,9 +78,7 @@ void Manager::drawBackground() const {
 
 void Manager::draw() const {
   drawBackground();
-  /*   ----- draw one ball here------- */
   //orb.draw();
-  /*   ----- draw one ball here------- */
   for (int i = 0;i < ballCount;i ++)
       orb[i].draw();
 
@@ -94,15 +95,10 @@ if( ( ticks < (unsigned) (1000 / 60) ) ) {
     SDL_Delay( ( 1000 / 60 ) - ticks );
 } 
 
-  /* --------- one ball need update ------------- */
-  //orb.update(ticks);
-  /* --------- many balls need update ------------- */
   for (int i = 0;i < ballCount;i++)
   {
     orb[i].update(ticks);
   }
-
-
 
   if ( makeVideo && frameCount < frameMax ) {
     std::stringstream strm;

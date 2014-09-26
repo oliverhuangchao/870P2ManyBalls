@@ -16,10 +16,15 @@ public:
   virtual void update(Uint32 ticks);
   virtual const Frame* getFrame() const { return frame; }
 
+  int getCenterX()  const { return centerX; }
+  int getCenterY() const { return centerY; }
+
 private:
   const Frame * frame;
   int frameWidth;
   int frameHeight;
+  int centerX;
+  int centerY;
   int worldWidth;
   int worldHeight;
   int getDistance(const Sprite*) const;
